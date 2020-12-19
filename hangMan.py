@@ -48,17 +48,6 @@ def play(word):
                     guessed = True                      # - we fully guessed the word
                 print(wordCompl)
         
-        elif len(guess) == len(word) and guess.isalpha():
-            if guess in guessedWords:
-                print('The word already has been guessed')
-            elif guess not in word:
-                print(guess + ' is not the word!')
-                tries = tries - 1 # Takes one life
-            else:
-                guessed = True
-                wordCompl = word
-            print(wordCompl+'\n')
-        
     if guessed:
         print('Congratulations, you guessed the word.')
     else:
