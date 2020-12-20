@@ -1,61 +1,49 @@
-# hangMan.py
-
 import random
 from words import wordList
 
-# We are making random expresioins 
-expresions = ['Nice, ', 'Good Job, ', 'Great, ']
-randomExpresion = random.choice(expresions) # We are getting random expresion with random.choice
-
-def get_word():
-    word = random.choice(wordList)  # We are getting random word from the wordList
-    return word.lower()             
+def getWord():
+    word = random.choice(wordList)  # We gonna assign the wordList to word and we gonna mix them.
+    return word.lower()             # We gonna return the words to lower.
 
 def play(word):
-    wordCompl = "_" * len(word)     # We are replacing the word with the length of the word with _
-    guessedWords = []               # Storing Guessed Words
-    guessedLetters = []             # Storing Guessed Letters
-    tries = 10                      # Tries
-    guessed = False                    
+    guessed = False
+    guessedLetters = []             # Here we are storing all used Letters.
+    tries = 8                       # Here we are setting how many tries will the player have.
+    wordCompl = "_"*len(word)       # Here we will replace the word with -> _
     print('Lets play Hangman!')
     print(wordCompl)
 
     while not guessed and tries > 0:
-        guess = input('Enter a word or a letter: ').lower()        # Taking a guess
+        guess = input('Guess a Letter: ').lower()
+        if len(guess) == 1 and guess.isalpha():         # We are making sure that the guess is 1 and its a character.
+            if guess in guessedLetters:                 # We are checking if the guessed Letter has been already used.
+                print('That letter has already been used!')
+                print(wordCompl)
+            elif guess not in word:                     # We are checking if the guessed Letter is not in the word.
+                print(guess, ' is not in the word!')
+                guessedLetters.append(guess)            # We are adding the letter to the guessed Letters.
+                tries -= 1                              # We are taking one life.
+                print(wordCompl)
+            else:
+                print(guess, ' is in the word.')
+                guessedLetters.append(guess)            # We are adding the guessed letter to the guessedLetters Storage.
+                shrededWord = list(wordCompl)           # We gonna assign the wordCmpl to shrededWord as list.
+                multiInd = [a for a, letter in enumerate(word) if letter == guess]  # Here we are making a function that checks if the guessed letter is in the word.
+                for ind in multiInd:        # Here we are checking for every character in the word.
+                    shrededWord[ind] = guess    # We are assigning the character to the shrededWord if its the guess.
+                wordCompl = ''.join(shrededWord)    # We are joining the wordCompl with shrededWord becouse we want the '_' to be replaced with the guessed character.
+                if '_' not in wordCompl:        # We are making sure that if there are no more '_'.
+                    guessed = True              # If there are no more '_' that means that the word is guessed.
+                print(wordCompl)
+        if guessed:
+            print('Congrats! You guessed the Word!')
+        else:
+            print('You failed! The word was ' + word)
 
-        # Founds if the letters has been already used
-        if len(guess) == 1 and guess.isalpha():
-            if guess in guessedLetters:
-                print("You already guessed the letter " + guess)
-            
-            # Checks if the guess is not the word.
-            elif guess not in word:
-                print(guess + ' is/ not in the word!')
-                tries = tries - 1 # Takes one life 
-                guessedLetters.append(guess)
-                print(wordCompl)
-            
-            # Checks if the guess is the word & the _ to be replaced with the letter/word
-            else:     
-                print(randomExpresion, guess + ' is/in the word!')
-                guessedLetters.append(guess)        # We are storing the guessed letters
-                wordAsList = list(wordCompl)        # We shred the word into letters
-                multiInd = [a for a, letter in enumerate(word) if letter == guess]  # We gonna check every character with [a for a] in guess
-                for ind in multiInd:                                              # We gonna take the character, and we gonna pass it.
-                    wordAsList[ind] = guess
-                wordCompl = ''.join(wordAsList)         # Then we gonna join them
-                if '_' not in wordCompl:                # And if we don't have any left spaces
-                    guessed = True                      # - we fully guessed the word
-                print(wordCompl)
-        
-    if guessed:
-        print('Congratulations, you guessed the word.')
-    else:
-        print('You failed! The word was ' + word)
 
 def main():
-    word = get_word()
+    word = getWord()
     play(word)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
