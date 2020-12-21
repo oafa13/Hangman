@@ -35,10 +35,10 @@ def play(word):
                 if '_' not in wordCompl:        # We are making sure that if there are no more '_'.
                     guessed = True              # If there are no more '_' that means that the word is guessed.
                 print(wordCompl)
-        if guessed:
-            print('Congrats! You guessed the Word!')
-        else:
-            print('You failed! The word was ' + word)
+    if guessed:
+        print('Congrats! You guessed the Word!')
+    else:
+        print('You failed! The word was ' + word)
 
 
 def main():
